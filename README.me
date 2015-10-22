@@ -1,0 +1,28 @@
+== README
+
+# Checklist_App DB設計
+
+## contentsテーブル
+    belongs_to: checklist
+
+
+* id: integer
+* text: string
+* checklist_id: integer
+* created_at: datetime
+* updated_at : datetime
+
+## checklistsテーブル
+  has_many :contents, dependent: :destroy
+  accepts_nested_attributes_for :contents
+  mount_uploader :image, ImageUploader
+
+* id: integer
+* frequency: integer(enum)
+* dete: integer
+* day: integer
+* maker :string
+* done :boolean
+* todayflag :boolean
+* created_at: datetime
+* updated_at: datetime
