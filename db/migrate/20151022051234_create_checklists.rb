@@ -4,7 +4,7 @@ class CreateChecklists < ActiveRecord::Migration
       t.string :name
       t.integer :frequency
       t.integer :date
-      t.integer :days
+      t.integer :wday
       t.string :maker
       t.string :image
       t.boolean :done

@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20151022052041) do
     t.string   "name",       limit: 255
     t.integer  "frequency",  limit: 4
     t.integer  "date",       limit: 4
-    t.integer  "days",       limit: 4
+    t.integer  "wday",       limit: 4
     t.string   "maker",      limit: 255
     t.string   "image",      limit: 255
     t.boolean  "done"
