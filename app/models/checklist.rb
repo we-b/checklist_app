@@ -1,5 +1,9 @@
 class Checklist < ActiveRecord::Base
 
+  enum frequency: { everyday: 0, wday:1, date:2 }
+  enum days:      { 日:0, 月:1, 火:2, 水:3, 木:4, 金:6, 土:7 }
+  enum todayflag: { not_today: 0, today: 1 }
+
 
   def check_today
     d = Date.today
@@ -7,37 +11,35 @@ class Checklist < ActiveRecord::Base
     today = d.day
     thiswday = wday[d.wday - 1]
 
-    if self.frequency == '毎日' || self.frequency == '曜日指定' && self.days == thiswday || self.frequency == '日指定' && self.date == today
-      self.todayflag = 1
+    if self.frequency == 'everyday' || self.frequency == 'wday' && self.wday == thiswday || self.frequency == 'date' && self.date == today
+      self.todayflag = 'today'
     else
-      self.todayflag = 0
+      self.todayflag = 'not_today'
     end
     self.save
   end
 
   def check_status
-    if todayflag == 1
+    if todayflag == 'today'
       if done == false
-        return 'not_done.gif'
+        'not_done.gif'
       elsif done == true
-        return 'done.gif'
-      else
+        'done.gif'
       end
-    elsif todayflag == 0
-      return 'dont_have_to.gif'
+    elsif todayflag == 'not_today'
+      'dont_have_to.gif'
     end
   end
 
   def deside_id
-    if todayflag == 1
+    if todayflag == 'today'
       if done == false
-        return 'not_done'
+        'not_done'
       elsif done == true
-        return 'done'
-      else
+        'done'
       end
-    elsif todayflag == 0
-      return 'dont_have_to'
+    elsif todayflag == 'not_today'
+      'dont_have_to'
     end
   end
 
