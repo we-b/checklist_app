@@ -1,7 +1,7 @@
 class Checklist < ActiveRecord::Base
 
   enum frequency: { everyday: 0, wday:1, date:2 }
-  enum days:      { 日:0, 月:1, 火:2, 水:3, 木:4, 金:6, 土:7 }
+  enum wday:      { 日:0, 月:1, 火:2, 水:3, 木:4, 金:6, 土:7 }
   enum todayflag: { not_today: 0, today: 1 }
 
 
@@ -10,13 +10,12 @@ class Checklist < ActiveRecord::Base
     wday = ['月','火','水','木','金','土','日']
     today = d.day
     thiswday = wday[d.wday - 1]
-
-    if self.frequency == 'everyday' || self.frequency == 'wday' && self.wday == thiswday || self.frequency == 'date' && self.date == today
-      self.todayflag = 'today'
-    else
-      self.todayflag = 'not_today'
-    end
-    self.save
+      if everyday? || wday?(thiswday) || date?(today)
+        self.todayflag = 'today'
+      else
+        self.todayflag = 'not_today'
+      end
+      save
   end
 
   def check_status
@@ -41,6 +40,18 @@ class Checklist < ActiveRecord::Base
     elsif todayflag == 'not_today'
       'dont_have_to'
     end
+  end
+
+  def everyday?
+    frequency == 'everyday' ? true : false
+  end
+
+  def wday?(thiswday)
+    frequency == 'wday' && wday == thiswday ? true : false
+  end
+
+  def date?(today)
+    frequency == 'date' && date == today ? true : false
   end
 
 end
