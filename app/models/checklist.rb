@@ -20,10 +20,10 @@ class Checklist < ActiveRecord::Base
 
   def check_status
     if todayflag == 'today'
-      if done == false
-        'not_done.gif'
-      elsif done == true
+      if done
         'done.gif'
+      else
+        'not_done.gif'
       end
     elsif todayflag == 'not_today'
       'dont_have_to.gif'
@@ -32,10 +32,10 @@ class Checklist < ActiveRecord::Base
 
   def deside_id
     if todayflag == 'today'
-      if done == false
-        'not_done'
-      elsif done == true
+      if done
         'done'
+      else
+        'not_done'
       end
     elsif todayflag == 'not_today'
       'dont_have_to'
