@@ -1,7 +1,7 @@
 class Checklist < ActiveRecord::Base
 
   enum frequency: [ :everyday, :wday, :date ]
-  enum wday:      [ '日', '月', '火', '水', '木', '金', '土' ]
+  enum wday:      [ :sunday, :monday, :tueday, :wedday, :thuday, :friday, :satday ]
   enum todayflag: [ :not_today, :today ]
 
   paginates_per 3
