@@ -5,7 +5,7 @@ class Checklist < ActiveRecord::Base
   enum todayflag: [ :not_today, :today ]
 
   paginates_per 3
-
+  default_scope { order(todayflag: :DESC) }
 
   def check_today
     today = Settings.d.day
