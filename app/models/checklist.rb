@@ -1,21 +1,33 @@
 class Checklist < ActiveRecord::Base
 
-  enum frequency: { everyday: 0, wday:1, date:2 }
-  enum wday:      { 日:0, 月:1, 火:2, 水:3, 木:4, 金:6, 土:7 }
-  enum todayflag: { not_today: 0, today: 1 }
+  enum frequency: [ :everyday, :wday, :date ]
+  enum wday:      [ '日', '月', '火', '水', '木', '金', '土' ]
+  enum todayflag: [ :not_today, :today ]
+
+  paginates_per 3
 
 
   def check_today
-    d = Date.today
-    wday = ['月','火','水','木','金','土','日']
-    today = d.day
-    thiswday = wday[d.wday - 1]
-      if everyday? || wday?(thiswday) || date?(today)
-        self.todayflag = 'today'
-      else
-        self.todayflag = 'not_today'
-      end
-      save
+    today = Settings.d.day
+    thiswday = Settings.wday[Settings.d.wday - 1]
+    if everyday? || wday?(thiswday) || date?(today)
+      self.todayflag = 'today'
+    else
+      self.todayflag = 'not_today'
+    end
+    save
+  end
+
+  def self.check_all_checklists(checklists)
+     checklists.each { |checklist| checklist.check_today }
+  end
+
+  def self.check_flash(checklists)
+    checklists.each do |checklist|
+      flag = 0
+      flag += 1 if checklist.deside_id == 'not_done'
+      return true if flag != 0
+    end
   end
 
   def check_status
