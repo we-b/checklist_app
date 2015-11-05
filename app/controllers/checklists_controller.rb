@@ -6,7 +6,3 @@ class ChecklistsController < ApplicationController
     flash[:alert] = '本日未チェックのチェックリストがあります。' if Checklist.check_flash(@checklists) == true
   end
 end
-
-
-
-
