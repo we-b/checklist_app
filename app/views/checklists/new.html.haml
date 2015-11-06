@@ -1,0 +1,58 @@
+= provide :title, "新規作成"
+
+.container
+  .panel.panel-default
+    .panel-heading.text-center
+      %h4 チェックリスト作成フォーム
+    .panel-body
+      = form_for(@checklist_new) do |f|
+        .col-xs-12.form-group
+          = f.label :name, 'リスト名'
+          = f.text_field :name, placeholder: 'リスト名', class: 'form-control'
+        .form-group
+          .col-xs-6
+            = f.label :maker, 'リスト作成者'
+          .col-xs-6
+            = f.label :image, 'イメージ画像'
+
+          .col-xs-6.form-group
+            = f.text_field :maker, placeholder: 'リスト作成者名', class: 'form-control'
+          .col-xs-6.form-group
+            = f.file_field :image
+
+
+        .col-xs-12.form-group
+          = f.label :frequency, 'チェック頻度'
+          .form-group
+            = f.select :frequency, [['毎日', 'everyday'], ['曜日指定', 'wday'], ['日指定', 'date']]
+        .col-xs-12.form-group#wday
+          = f.label :days, '曜日'
+          .form-group
+            %span 毎週
+            = f.select :wday, [['日', 'sun'], ['月', 'mon'], ['火', 'tue'], ['水', 'wed'], ['木', 'thu'], ['金', 'fri'], ['土', 'sat']]
+            %span 曜日
+        .col-xs-12.form-group#date
+          = f.label :date, '日付'
+          .form-group
+            %span 毎月
+            = f.select :date, 1..31
+            %span 日
+        .contents_area
+          - @checklist_new.contents.each do |content|
+            = fields_for "text[content][]", content do |content|
+              .form-group
+                .col-xs-6.content_label.form-group
+                  = content.label :text, 'チェック項目'
+                .col-xs-6.form-group
+                  %input{ type: 'button', class: 'btn btn-default add_button', value: 'チェック項目追加' }
+              .form-group.content_field
+                .col-xs-8.content_input
+                  = content.text_field :text, class: 'form-control', placeholder: '追加したいチェック項目を入力してください'
+                .col-xs-2.button_area
+                  %input{ type: 'button', class: 'btn btn-default remove_button', value: '削除' }
+          %br
+
+        .col-xs-2.col-xs-offset-5
+          %br
+          = button_tag '作成', type: 'submit', class: 'btn btn-primary'
+
