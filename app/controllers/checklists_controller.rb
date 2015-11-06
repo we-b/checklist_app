@@ -9,9 +9,6 @@ class ChecklistsController < ApplicationController
   def new
     @checklist_new = Checklist.new
     @contents = @checklist_new.contents.build
-    @week_days = I18n.t 'date.abbr_day_names'
-    @month_days = 1..31
-    @array = []
   end
 
   def create
@@ -28,6 +25,20 @@ class ChecklistsController < ApplicationController
 
   def contents_params
     params.require(:text).require(:content)
+  end
+
+  def create_checklist(params)
+    if params[:frequency] == 'everyday'
+      Checklist.petern_everyday(params)
+    elsif params[:frequency] == 'wday'
+      Checklist.petern_day(params)
+    else
+      Checklist.petern_wday(params)
+    end
+  end
+
+  def create_list_contents(checklist, elements)
+    elements.each { |ele| checklist.contents.create(text: ele[:text]) }
   end
 
 end
