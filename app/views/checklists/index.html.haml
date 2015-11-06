@@ -1,0 +1,6 @@
+= provide :title, "チェックリスト一覧"
+
+.container
+  = render @checklists
+  .text-center
+    = paginate @checklists

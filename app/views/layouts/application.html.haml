@@ -1,0 +1,40 @@
+!!!HTML
+%html{ lang: 'ja'}
+%head
+  %meta{ charset: "utf-8" }
+  %meta{ http:{ equiv: "X-UA-Compatible" }, content: "IE=edge" }
+  %meta{ name: 'viewpoint', content: "width=device-width, initial-scale=1" }
+  %title ChecklistApp
+  = stylesheet_link_tag 'application', media: 'all', data:{ turbolinks: { track: 'true' } }
+  = javascript_include_tag 'application', data: { turbolinks: { track: 'true' } }
+%body
+
+  / header
+  %header
+    %nav.navbar.navbar-default
+      .container-fruid
+        .navbar-header
+          %button.navbar-toggle.collapsed{ aria: { expanded: false }, data:{ toggle: 'collapse', target: "#bs-example-navbar-collapse-1" }, type: 'button' }
+            %span{ class: "sr-only" } Toggle navigation
+            %span{ class: "icon-bar" }
+            %span{ class: "icon-bar" }
+            %span{ class: "icon-bar" }
+          %p{class: 'navbar-brand'}
+            = yield :title
+
+      .collapse.navbar-collapse#bs-example-navbar-collapse-1
+        %ul{ class: "nav navbar-nav" }
+          %li
+            = link_to 'チェックリスト一覧', root_path
+          %li
+            = link_to '新規作成', new_checklist_path
+
+  .container
+    / flash message
+    - flash.each do |key, value|
+      - key = "info" if key == "notice"
+      - key = "danger"  if key == "alert"
+      = content_tag :div, value, class: "alert alert-#{key}"
+
+    = yield
+

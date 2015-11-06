@@ -1,0 +1,13 @@
+default: &default
+  message: 'Hello'
+  d: <%= Date.today %>
+  wday: ['月','火','水','木','金','土','日']
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
