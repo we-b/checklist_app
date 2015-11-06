@@ -1,7 +1,7 @@
 class Checklist < ActiveRecord::Base
 
   enum frequency: [ :everyday, :wday, :date ]
-  enum wday:      [ :sunday, :monday, :tueday, :wedday, :thuday, :friday, :satday ]
+  enum wday:      [ :sun, :mon, :tue, :wed, :thu, :fri, :sat ]
   enum todayflag: [ :not_today, :today ]
 
   has_many :contents, dependent: :destroy
@@ -68,6 +68,18 @@ class Checklist < ActiveRecord::Base
 
   def date?(today)
     frequency == 'date' && date == today ? true : false
+  end
+
+  def self.petern_everyday(params)
+     Checklist.create(name: params[:name], frequency: 'everyday', wday: 0, date: 0, maker: params[:maker], image: params[:image], done: false)
+  end
+
+  def self.petern_day(params)
+      Checklist.create(name: params[:name], frequency: 'wday', wday: params[:wday], date: 0, maker: params[:maker], image: params[:image], done: false)
+  end
+
+  def self.petern_wday(params)
+      Checklist.create(name: params[:name], frequency: 'date', wday: 0, date: params[:date], maker: params[:maker], image: params[:image], done: false)
   end
 
 end
