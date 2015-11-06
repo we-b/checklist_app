@@ -4,6 +4,10 @@ class Checklist < ActiveRecord::Base
   enum wday:      [ :sunday, :monday, :tueday, :wedday, :thuday, :friday, :satday ]
   enum todayflag: [ :not_today, :today ]
 
+  has_many :contents, dependent: :destroy
+  accepts_nested_attributes_for :contents
+  mount_uploader :image, ImageUploader
+
   paginates_per 3
   default_scope { order(todayflag: :DESC) }
 
