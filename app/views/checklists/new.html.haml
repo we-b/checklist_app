@@ -5,7 +5,7 @@
     .panel-heading.text-center
       %h4 チェックリスト作成フォーム
     .panel-body
-      = form_for(@checklist_new) do |f|
+      = form_for @checklist_new do |f|
         .col-xs-12.form-group
           = f.label :name, 'リスト名'
           = f.text_field :name, placeholder: 'リスト名', class: 'form-control'
@@ -24,12 +24,12 @@
         .col-xs-12.form-group
           = f.label :frequency, 'チェック頻度'
           .form-group
-            = f.select :frequency, [['毎日', 'everyday'], ['曜日指定', 'wday'], ['日指定', 'date']]
+            = f.select :frequency, @frequency
         .col-xs-12.form-group#wday
           = f.label :days, '曜日'
           .form-group
             %span 毎週
-            = f.select :wday, [['日', 'sun'], ['月', 'mon'], ['火', 'tue'], ['水', 'wed'], ['木', 'thu'], ['金', 'fri'], ['土', 'sat']]
+            = f.select :wday, @wday
             %span 曜日
         .col-xs-12.form-group#date
           = f.label :date, '日付'

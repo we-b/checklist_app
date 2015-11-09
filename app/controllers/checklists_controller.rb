@@ -9,6 +9,8 @@ class ChecklistsController < ApplicationController
   def new
     @checklist_new = Checklist.new
     @contents = @checklist_new.contents.build
+    @frequency = Checklist.get_frequency_list
+    @wday = Checklist.get_wday_list
   end
 
   def create

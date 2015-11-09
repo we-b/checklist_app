@@ -22,6 +22,16 @@ class Checklist < ActiveRecord::Base
     save
   end
 
+  def self.get_frequency_list
+    frequency = []
+    frequency.push(Settings.frequency_everyday, Settings.frequency_wday, Settings.frequency_date)
+  end
+
+  def self.get_wday_list
+    wday = []
+    wday.push(Settings.wday_sun, Settings.wday_mon, Settings.wday_tue, Settings.wday_wed, Settings.wday_thu, Settings.wday_fri, Settings.wday_sat,)
+  end
+
   def self.check_all_checklists(checklists)
      checklists.each { |checklist| checklist.check_today }
   end
