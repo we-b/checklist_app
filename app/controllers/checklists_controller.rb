@@ -1,4 +1,5 @@
 class ChecklistsController < ApplicationController
+  protect_from_forgery except: [:destroy]
 
   def index
     @checklists = Checklist.all.order(done: :ASC).page(params[:page])
@@ -17,6 +18,11 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.find(params[:id])
     @contents = @checklist.contents
     flash.now[:"#{@checklist.decide_flash_key}"] = "#{@checklist.decide_flash_message}"
+  end
+
+  def destroy
+    @checklist = Checklist.find(params[:id])
+    @checklist.destroy ? (flash.now[:success] = 'チェックリストの削除が完了しました') : (redirect_to back, warning: 'チェックリストを削除できませんでした')
   end
 
   def create
