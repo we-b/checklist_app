@@ -1,0 +1,58 @@
+= provide :title, "編集"
+
+.container
+  .panel.panel-default
+    .panel-heading.text-center
+      %h4 チェックリスト編集
+    .panel-body
+      = form_for(@checklist) do |f|
+        .col-xs-12.form-group
+          = f.label :name, 'リスト名'
+          = f.text_field :name, class: 'form-control'
+        .form-group
+          .col-xs-6
+            = f.label :maker, 'リスト作成者'
+          .col-xs-6
+            = f.label :image, 'イメージ画像'
+
+          .col-xs-6.form-group
+            = f.text_field :maker, class: 'form-control'
+          .col-xs-6.form-group
+            = f.file_field :image
+
+        .col-xs-12.form-group
+          = f.label :frequency, 'チェック頻度'
+          .form-group
+            = f.select :frequency, @frequency
+        .col-xs-12.form-group#wday_edit
+          = f.label :days, '曜日'
+          .form-group
+            %span 毎週
+            = f.select :wday, @wday, value: @checklist.wday
+            %span 曜日
+        .col-xs-12.form-group#date_edit
+          = f.label :date, '日付'
+          .form-group
+            %span 毎月
+            = f.select :date, 1..31, value: @checklist.date
+            %span 日
+
+        .form-group.contents_area
+          .col-xs-6.content_label.form-group
+            = f.label :text, 'チェック項目'
+          .col-xs-6.form-group
+            %input{ type: 'button', class: 'btn btn-default add_button', value: 'チェック項目追加' }
+          - @checklist.contents.each do |content|
+            = fields_for "text[]", content do |content|
+              .form-group.content_field
+                .col-xs-8.content_input
+                  = content.text_field :text, class: 'form-control', placeholder: '追加したいチェック項目を入力してください'
+                .col-xs-2.button_area
+                  %input{ type: 'button', class: 'btn btn-default remove_button', value: '削除' }
+          %br
+
+        .col-xs-2.col-xs-offset-5
+          %br
+          = f.submit '更新', type: 'submit', class: 'btn btn-primary'
+          = hidden_field_tag :checkflag, 0
+
