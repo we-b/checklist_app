@@ -13,6 +13,12 @@ class ChecklistsController < ApplicationController
     @wday = Checklist.get_wday_list
   end
 
+  def show
+    @checklist = Checklist.find(params[:id])
+    @contents = @checklist.contents
+    flash.now[:"#{@checklist.decide_flash_key}"] = "#{@checklist.decide_flash_message}"
+  end
+
   def create
     @checklist = create_checklist(create_params)
     @checklist.check_today

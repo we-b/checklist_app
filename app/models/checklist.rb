@@ -68,6 +68,30 @@ class Checklist < ActiveRecord::Base
     end
   end
 
+  def decide_flash_message
+    if todayflag == 'today'
+      if done
+        '本日チェック済みです。 お疲れ様でした'
+      else
+        '本日未チェックです！ チェックしましょう'
+      end
+    else
+      '本日チェックする必要はございません'
+    end
+  end
+
+  def decide_flash_key
+    if todayflag == 'today'
+      if done
+        'success'
+      else
+        'danger'
+      end
+    else
+      'info'
+    end
+  end
+
   def everyday?
     frequency == 'everyday' ? true : false
   end
