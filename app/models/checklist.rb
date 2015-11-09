@@ -71,12 +71,12 @@ class Checklist < ActiveRecord::Base
   def decide_flash_message
     if todayflag == 'today'
       if done
-        '本日チェック済みです。 お疲れ様でした'
+        'このチェックリストは本日チェック済みです。 お疲れ様でした'
       else
-        '本日未チェックです！ チェックしましょう'
+        'このチェックリストは本日未チェックです！ チェックしましょう'
       end
     else
-      '本日チェックする必要はございません'
+      'このチェックリストは本日チェックする必要はございません'
     end
   end
 
@@ -90,6 +90,19 @@ class Checklist < ActiveRecord::Base
     else
       'info'
     end
+  end
+
+  def check_contents
+    self.done = true
+    self.save
+  end
+
+  def edit_contents(params, new_contents_params)
+    self.contents.each do |content|
+      id = content.id.to_s
+      params[:text][id] ? content.update(text: params[:text][id][:text]) : content.destroy
+    end
+    new_contents_params.each { |new_text| self.contents.create(text: new_text[:text]) unless new_text[:text] == 'none' }
   end
 
   def everyday?
