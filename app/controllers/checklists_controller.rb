@@ -20,6 +20,24 @@ class ChecklistsController < ApplicationController
     flash.now[:"#{@checklist.decide_flash_key}"] = "#{@checklist.decide_flash_message}"
   end
 
+  def edit
+    @checklist = Checklist.find(params[:id])
+    @frequency = Checklist.get_frequency_list
+    @wday = Checklist.get_wday_list
+  end
+
+  def update
+    @checklist = Checklist.find(params[:id])
+    if params.require(:checkflag).to_i == 1
+      @checklist.check_contents
+      redirect_to :root, success: 'チェックが完了しました'
+    else
+      @checklist.update(create_params)
+      @checklist.edit_contents(params, contents_params)
+      redirect_to :root, success: 'チェックリストの編集が完了しました'
+    end
+  end
+
   def destroy
     @checklist = Checklist.find(params[:id])
     @checklist.destroy ? (flash.now[:success] = 'チェックリストの削除が完了しました') : (redirect_to back, warning: 'チェックリストを削除できませんでした')
@@ -32,13 +50,18 @@ class ChecklistsController < ApplicationController
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
   end
 
-  private
+
   def create_params
     params.require(:checklist).permit(:name, :frequency, :date, :wday, :maker, :image, :done)
   end
 
   def contents_params
-    params.require(:text).require(:content)
+    if params.require(:text).include?(:content)
+      params.require(:text).require(:content)
+    else
+      [ { text: 'none' } ]
+    end
+
   end
 
   def create_checklist(params)
