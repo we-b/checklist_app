@@ -17,6 +17,36 @@ $(function(){
   });
 });
 
+// 編集画面でのチェック頻度選択欄の表示・非表示
+$(function(){
+  var frequency = $('select[id="checklist_frequency"] option:selected').val();
+  if(frequency == 'wday'){
+    $('#wday_edit').css('display', 'block');
+    $('#date_edit').css('display', 'none');
+  }else if(frequency == 'date'){
+    $('#wday_edit').css('display', 'none');
+    $('#date_edit').css('display', 'block');
+  }else{
+    $('#wday_edit').css('display', 'none');
+    $('#date_edit').css('display', 'none');
+  };
+  $('select[id="checklist_frequency"]').on('change', function(){
+    var val = $('[id=checklist_frequency]').val();
+    if(val === 'wday'){
+      $("#wday_edit").css("display", "block");
+      $("#date_edit").css("display", "none");
+    }
+    else if(val === 'date'){
+      $("#date_edit").css("display", "block");
+      $("#wday_edit").css("display", "none");
+    }
+    else{
+      $("#date_edit").css("display", "none");
+      $("#wday_edit").css("display", "none");
+    };
+  });
+});
+
 // チェックリスト登録画面で、リスト項目の入力行追加
 $(function(){
   $('.contents_area').on('click', '.add_button', function(){
@@ -48,5 +78,23 @@ $(function(){
       var panel = checkimg.parents('div[class="panel panel-default"]');
       panel.css('border', '3px double red');
     };
+  };
+});
+
+// リスト削除の確認
+$(function(){
+  $('#list_delete_button').on('click', function(){
+    if(!confirm('このリストを削除します。よろしいですか？')){
+      return false;
+    };
+  });
+});
+
+//既にチェック済みだったらチェックリストにチェックをいれて、戻るボタンを表示
+$(function(){
+  var alerttext = $('div.alert').text();
+  if(alerttext == '本日チェック済みです。 お疲れ様でした' || alerttext == '本日チェックする必要はございません'){
+    $('input[type="checkbox"]').prop("checked",true);
+    $('#check_button').replaceWith('<a href="/", type="button", class="btn btn-success">トップに戻る</a>');
   };
 });
