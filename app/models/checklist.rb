@@ -39,8 +39,11 @@ class Checklist < ActiveRecord::Base
   def self.check_flash(checklists)
     checklists.each do |checklist|
       flag = 0
-      flag += 1 if checklist.deside_id == 'not_done'
-      return true if flag != 0
+      if checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
+        flag += 1
+      end
+      flag != 0 ? return_flag = true : return_flag = false
+      return return_flag
     end
   end
 
@@ -71,12 +74,12 @@ class Checklist < ActiveRecord::Base
   def decide_flash_message
     if todayflag == 'today'
       if done
-        'このチェックリストは本日チェック済みです。 お疲れ様でした'
+        '本日チェック済みです。 お疲れ様でした'
       else
-        'このチェックリストは本日未チェックです！ チェックしましょう'
+        '本日未チェックです！ チェックしましょう'
       end
     else
-      'このチェックリストは本日チェックする必要はございません'
+      '本日チェックする必要はございません'
     end
   end
 
