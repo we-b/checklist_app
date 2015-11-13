@@ -5,7 +5,7 @@
     .panel-heading.text-center
       %h4 チェックリスト作成フォーム
     .panel-body
-      = form_for @checklist_new do |f|
+      = form_for @checklist do |f|
         .col-xs-12.form-group
           = f.label :name, 'リスト名'
           = f.text_field :name, placeholder: 'リスト名', class: 'form-control'
@@ -38,7 +38,7 @@
             = f.select :date, 1..31
             %span 日
         .contents_area
-          - @checklist_new.contents.each do |content|
+          - @checklist.contents.each do |content|
             = fields_for "text[content][]", content do |content|
               .form-group
                 .col-xs-6.content_label.form-group

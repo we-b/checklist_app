@@ -8,8 +8,8 @@ class ChecklistsController < ApplicationController
   end
 
   def new
-    @checklist_new = Checklist.new
-    @contents = @checklist_new.contents.build
+    @checklist = Checklist.new
+    @contents = @checklist.contents.build
     @frequency = Checklist.get_frequency_list
     @wday = Checklist.get_wday_list
   end
@@ -44,7 +44,7 @@ class ChecklistsController < ApplicationController
   end
 
   def create
-    @checklist = create_checklist(create_params)
+    @checklist = Checklist.create_checklist(create_params)
     @checklist.check_today
     create_list_contents(@checklist, contents_params)
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
@@ -60,17 +60,6 @@ class ChecklistsController < ApplicationController
       params.require(:text).require(:content)
     else
       [ { text: 'none' } ]
-    end
-
-  end
-
-  def create_checklist(params)
-    if params[:frequency] == 'everyday'
-      Checklist.petern_everyday(params)
-    elsif params[:frequency] == 'wday'
-      Checklist.petern_day(params)
-    else
-      Checklist.petern_wday(params)
     end
   end
 
