@@ -2,16 +2,8 @@ default: &default
   message: 'Hello'
   d: <%= Date.today %>
   wday: ['月','火','水','木','金','土','日']
-  frequency_everyday: ['毎日', 'everyday']
-  frequency_wday: ['曜日指定', 'wday']
-  frequency_date: ['日指定', 'date']
-  wday_sun: ['日', 'sun']
-  wday_mon: ['月', 'mon']
-  wday_tue: ['火', 'tue']
-  wday_wed: ['水', 'wed']
-  wday_thu: ['木', 'thu']
-  wday_fri: ['金', 'fri']
-  wday_sat: ['土', 'sat']
+  frequency: [['毎日', 'everyday'], ['曜日指定', 'wday'], ['日指定', 'date']]
+  wday: [['日', 'sun'], ['月', 'mon'], ['火', 'tue'], ['水', 'wed'], ['木', 'thu'], ['金', 'fri'], ['土', 'sat']]
 
 development:
   <<: *default

@@ -6,7 +6,7 @@ class Checklist < ActiveRecord::Base
 
   has_many :contents, dependent: :destroy
   accepts_nested_attributes_for :contents
-  mount_uploader :image, ImageUploader
+  mount_uploader :image, Checklist_thumbnailUploader
 
   paginates_per 3
   default_scope { order(todayflag: :DESC) }
@@ -23,13 +23,11 @@ class Checklist < ActiveRecord::Base
   end
 
   def self.get_frequency_list
-    frequency = []
-    frequency.push(Settings.frequency_everyday, Settings.frequency_wday, Settings.frequency_date)
+    Settings.frequency
   end
 
   def self.get_wday_list
-    wday = []
-    wday.push(Settings.wday_sun, Settings.wday_mon, Settings.wday_tue, Settings.wday_wed, Settings.wday_thu, Settings.wday_fri, Settings.wday_sat,)
+    Settings.wday
   end
 
   def self.check_all_checklists(checklists)
@@ -98,6 +96,16 @@ class Checklist < ActiveRecord::Base
   def check_contents
     self.done = true
     self.save
+  end
+
+  def self.create_checklist(params)
+    if params[:frequency] == 'everyday'
+      Checklist.petern_everyday(params)
+    elsif params[:frequency] == 'wday'
+      Checklist.petern_day(params)
+    else
+      Checklist.petern_wday(params)
+    end
   end
 
   def edit_contents(params, new_contents_params)
