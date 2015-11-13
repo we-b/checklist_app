@@ -1,61 +1,62 @@
+"use strict"
 // チェック頻度選択欄の表示・非表示
 $(function(){
-  $("#wday").css("display", "none");
-  $("#date").css("display", "none");
+  let $date = $("#date");
+  let $wday = $("#wday");
+  $date.css('display', 'none');
+  $wday.css('display', 'none');
   $('[id=checklist_frequency]').change(function(){
-    var val = $('[id=checklist_frequency]').val();
+    let val = $(this).val();
     if(val === 'wday'){
-      $("#wday").css("display", "block");
-      $("#date").css("display", "none");
+      $wday.css("display", "block");
+      $date.css("display", "none");
     }else if(val === 'date'){
-      $("#date").css("display", "block");
-      $("#wday").css("display", "none");
+      $date.css("display", "block");
+      $wday.css("display", "none");
     }else{
-      $("#date").css("display", "none");
-      $("#wday").css("display", "none");
+      $date.css("display", "none");
+      $wday.css("display", "none");
     };
   });
-});
 
-// 編集画面でのチェック頻度選択欄の表示・非表示
-$(function(){
+  // 編集画面でのチェック頻度選択欄の表示・非表示
   var frequency = $('select[id="checklist_frequency"] option:selected').val();
+  let $wday_edit = $('#wday_edit');
+  let $date_edit = $('#date_edit');
+  $wday_edit.css('display', 'none');
+  $date_edit.css('display', 'none');
   if(frequency == 'wday'){
-    $('#wday_edit').css('display', 'block');
-    $('#date_edit').css('display', 'none');
+    $wday_edit.css('display', 'block');
+    $date_edit.css('display', 'none');
   }else if(frequency == 'date'){
-    $('#wday_edit').css('display', 'none');
-    $('#date_edit').css('display', 'block');
+    $wday_edit.css('display', 'none');
+    $date_edit.css('display', 'block');
   }else{
-    $('#wday_edit').css('display', 'none');
-    $('#date_edit').css('display', 'none');
+    $wday_edit.css('display', 'none');
+    $date_edit.css('display', 'none');
   };
   $('select[id="checklist_frequency"]').on('change', function(){
     var val = $('[id=checklist_frequency]').val();
     if(val === 'wday'){
-      $("#wday_edit").css("display", "block");
-      $("#date_edit").css("display", "none");
+      $wday_edit.css("display", "block");
+      $date_edit.css("display", "none");
     }
     else if(val === 'date'){
-      $("#date_edit").css("display", "block");
-      $("#wday_edit").css("display", "none");
+      $date_edit.css("display", "block");
+      $wday_edit.css("display", "none");
     }
     else{
-      $("#date_edit").css("display", "none");
-      $("#wday_edit").css("display", "none");
+      $date_edit.css("display", "none");
+      $wday_edit.css("display", "none");
     };
   });
-});
 
-// チェックリスト登録画面で、リスト項目の入力行追加
-$(function(){
+  // チェックリスト登録画面で、リスト項目の入力行追加
   $('.contents_area').on('click', '.add_button', function(){
     $('.content_field:last').append('<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="text[content][][text]" id="text_content__text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>');
   });
-});
 
-//チェックリスト登録画面で、リスト項目の入力行削除
-$(function(){
+  //チェックリスト登録画面で、リスト項目の入力行削除
   $('.contents_area').on('click', '.remove_button', function(){
     var count = $('.remove_button').length;
     if(count === 1){
@@ -66,32 +67,26 @@ $(function(){
     $('.button_area').eq(index).remove();
     };
   });
-});
 
 
-//本日未チェック分のリスト枠を赤くする
-$(function(){
+  //本日未チェック分のリスト枠を赤くする
   var img = $('.panel-body div img')
-  for(i=0; i<img.length; i++){
+  for(var i = 0; i < img.length; i++){
     var checkimg = img.eq(i);
     if(checkimg.attr('id') == 'not_done'){
       var panel = checkimg.parents('div[class="panel panel-default"]');
       panel.css('border', '3px double red');
     };
   };
-});
 
-// リスト削除の確認
-$(function(){
+  // リスト削除の確認
   $('#list_delete_button').on('click', function(){
     if(!confirm('このリストを削除します。よろしいですか？')){
       return false;
     };
   });
-});
 
-//既にチェック済みだったらチェックリストにチェックをいれて、戻るボタンを表示
-$(function(){
+  //既にチェック済みだったらチェックリストにチェックをいれて、戻るボタンを表示
   var alerttext = $('div.alert').text();
   if(alerttext == '本日チェック済みです。 お疲れ様でした' || alerttext == '本日チェックする必要はございません'){
     $('input[type="checkbox"]').prop("checked",true);
