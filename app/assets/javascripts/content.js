@@ -7,7 +7,8 @@ $(function(){
       alert('チェック完了です！ お疲れ様でした。');
     }else{
       if(!confirm('チェックに漏れがあります。 完了してしまってもよろしいですか？')){
-      return false;
-    };
+        return false;
+      };
+    }
   });
 });
