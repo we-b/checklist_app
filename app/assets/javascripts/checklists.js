@@ -1,53 +1,59 @@
 "use strict"
+
+function check_wday (wday, date) {
+  wday.css('display', 'block');
+  date.css('display', 'none');
+};
+
+function check_date(wday, date) {
+  wday.css('display', 'none');
+  date.css('display', 'block');
+};
+
+function check_everyday(wday, date) {
+  wday.css('display', 'none');
+  date.css('display', 'none');
+};
+
 // チェック頻度選択欄の表示・非表示
 $(function(){
   let $date = $("#date");
   let $wday = $("#wday");
-  $date.css('display', 'none');
-  $wday.css('display', 'none');
+  check_everyday($wday, $date);
   $('[id=checklist_frequency]').change(function(){
     let val = $(this).val();
     if(val === 'wday'){
-      $wday.css("display", "block");
-      $date.css("display", "none");
+      check_wday($wday, $date);
     }else if(val === 'date'){
-      $date.css("display", "block");
-      $wday.css("display", "none");
+      check_date($wday, $date);
     }else{
-      $date.css("display", "none");
-      $wday.css("display", "none");
+      check_everyday($wday, $date);
     };
   });
 
   // 編集画面でのチェック頻度選択欄の表示・非表示
-  var frequency = $('select[id="checklist_frequency"] option:selected').val();
-  let $wday_edit = $('#wday_edit');
-  let $date_edit = $('#date_edit');
-  $wday_edit.css('display', 'none');
-  $date_edit.css('display', 'none');
-  if(frequency == 'wday'){
-    $wday_edit.css('display', 'block');
-    $date_edit.css('display', 'none');
-  }else if(frequency == 'date'){
-    $wday_edit.css('display', 'none');
-    $date_edit.css('display', 'block');
+  let $selectedItem = $('select[id="checklist_frequency"] option:selected')
+  let $frequencyList = $('[id="checklist_frequency"]')
+  let $frequency = $selectedItem.val();
+  let $wdayEdit = $('#wday_edit');
+  let $dateEdit = $('#date_edit');
+  if($frequency == 'wday'){
+    check_wday($wdayEdit, $dateEdit)
+  }else if($frequency == 'date'){
+    check_date($wdayEdit, $dateEdit)
   }else{
-    $wday_edit.css('display', 'none');
-    $date_edit.css('display', 'none');
+    check_everyday($wdayEdit, $dateEdit)
   };
-  $('select[id="checklist_frequency"]').on('change', function(){
-    var val = $('[id=checklist_frequency]').val();
+  $frequencyList.on('change', function(){
+    let val = $frequencyList.val();
     if(val === 'wday'){
-      $wday_edit.css("display", "block");
-      $date_edit.css("display", "none");
+      check_wday($wdayEdit, $dateEdit)
     }
     else if(val === 'date'){
-      $date_edit.css("display", "block");
-      $wday_edit.css("display", "none");
+      check_date($wdayEdit, $dateEdit)
     }
     else{
-      $date_edit.css("display", "none");
-      $wday_edit.css("display", "none");
+      check_everyday($wdayEdit, $dateEdit)
     };
   });
 
@@ -58,11 +64,11 @@ $(function(){
 
   //チェックリスト登録画面で、リスト項目の入力行削除
   $('.contents_area').on('click', '.remove_button', function(){
-    var count = $('.remove_button').length;
+    let count = $('.remove_button').length;
     if(count === 1){
       alert('入力欄が１行のため、削除出来ません。');
     }else{
-      var index = Number($('.remove_button').index(this));
+      let index = Number($('.remove_button').index(this));
     $('.content_input').eq(index).remove();
     $('.button_area').eq(index).remove();
     };
@@ -70,11 +76,11 @@ $(function(){
 
 
   //本日未チェック分のリスト枠を赤くする
-  var img = $('.panel-body div img')
-  for(var i = 0; i < img.length; i++){
-    var checkimg = img.eq(i);
+  let img = $('.panel-body div img')
+  for(let i = 0; i < img.length; i++){
+    let checkimg = img.eq(i);
     if(checkimg.attr('id') == 'not_done'){
-      var panel = checkimg.parents('div[class="panel panel-default"]');
+      let panel = checkimg.parents('div[class="panel panel-default"]');
       panel.css('border', '3px double red');
     };
   };
@@ -87,8 +93,8 @@ $(function(){
   });
 
   //既にチェック済みだったらチェックリストにチェックをいれて、戻るボタンを表示
-  var alerttext = $('div.alert').text();
-  if(alerttext == '本日チェック済みです。 お疲れ様でした' || alerttext == '本日チェックする必要はございません'){
+  let alertText = $('div.alert').text();
+  if(alertText == '本日チェック済みです。 お疲れ様でした' || alertText == '本日チェックする必要はございません'){
     $('input[type="checkbox"]').prop("checked",true);
     $('#check_button').replaceWith('<a href="/", type="button", class="btn btn-success">トップに戻る</a>');
   };
