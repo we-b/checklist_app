@@ -11,6 +11,10 @@ class Checklist < ActiveRecord::Base
   paginates_per 3
   default_scope { order(todayflag: :DESC) }
 
+  def self.set_checklist(params)
+    return Checklist.find(params[:id])
+  end
+
   def check_today
     today = Settings.d.day
     thiswday = Settings.wday[Settings.d.wday - 1]
@@ -20,14 +24,6 @@ class Checklist < ActiveRecord::Base
       self.todayflag = 'not_today'
     end
     save
-  end
-
-  def self.get_frequency_list
-    Settings.frequency
-  end
-
-  def self.get_wday_list
-    Settings.wday
   end
 
   def self.check_all_checklists(checklists)
@@ -40,8 +36,7 @@ class Checklist < ActiveRecord::Base
       if checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
         flag += 1
       end
-      flag != 0 ? return_flag = true : return_flag = false
-      return return_flag
+     return judgement = flag != 0 ? true : false
     end
   end
 
@@ -111,6 +106,7 @@ class Checklist < ActiveRecord::Base
   def edit_contents(params, new_contents_params)
     self.contents.each do |content|
       id = content.id.to_s
+      binding.pry
       params[:text][id] ? content.update(text: params[:text][id][:text]) : content.destroy
     end
     new_contents_params.each { |new_text| self.contents.create(text: new_text[:text]) unless new_text[:text] == 'none' }
