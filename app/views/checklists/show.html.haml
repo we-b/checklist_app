@@ -13,11 +13,12 @@
             = content.text
         %br
         %br
-        .col-xs-12.text-center
-          = hidden_field_tag :checkflag, 1
-          = button_tag 'チェック完了', class: 'btn btn-primary', id: 'check_button'
-
-  .col-xs-6.text-center
-    = link_to 'リスト編集', edit_checklist_path(@checklist), class: "btn btn-default", id: 'list_edit_button'
-  .col-xs-6.text-center
-    = link_to 'リスト削除', checklist_path(@checklist), method: 'delete', class: "btn btn-default", id: 'list_delete_button', authenticity_token: true
+        .row
+          .col-xs-12.text-center
+            = hidden_field_tag :checkflag, 1
+            = button_tag 'チェック完了', class: 'btn btn-primary', id: 'check_button'
+  .row
+    .col-xs-6.text-center
+      = link_to 'リスト編集', edit_checklist_path(@checklist), class: "btn btn-default", id: 'list_edit_button'
+    .col-xs-6.text-center
+      = link_to 'リスト削除', checklist_path(@checklist), method: 'delete', class: "btn btn-default", id: 'list_delete_button', authenticity_token: true
