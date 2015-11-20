@@ -25,13 +25,13 @@
           .col-xs-12.form-group
             = f.label :frequency, 'チェック頻度'
             .form-group
-              = f.select :frequency, @frequency
+              = f.select :frequency, Settings.frequency
         .row
           .col-xs-12.form-group#wday
             = f.label :days, '曜日'
             .form-group
               %span 毎週
-              = f.select :wday, @wday
+              = f.select :wday, Settings.wday
               %span 曜日
         .row
           .col-xs-12.form-group#date
