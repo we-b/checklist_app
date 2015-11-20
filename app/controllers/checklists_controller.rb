@@ -1,5 +1,6 @@
 class ChecklistsController < ApplicationController
   protect_from_forgery except: [:destroy]
+  before_action :set_checklist, only: [:edit, :update, :destroy, :show]
 
   def index
     @checklists = Checklist.all.order(done: :ASC).page(params[:page])
@@ -10,24 +11,14 @@ class ChecklistsController < ApplicationController
   def new
     @checklist = Checklist.new
     @contents = @checklist.contents.build
-    @frequency = Settings.frequency
-    @wday = Settings.wday
   end
 
   def show
-    @checklist = Checklist.set_checklist(params)
     @contents = @checklist.contents
     flash.now[:"#{@checklist.decide_flash_key}"] = "#{@checklist.decide_flash_message}"
   end
 
-  def edit
-    @checklist = Checklist.find(params[:id])
-    @frequency = Settings.frequency
-    @wday = Settings.wday
-  end
-
   def update
-    @checklist = Checklist.find(params[:id])
     if params.require(:checkflag).to_s == 'edit_checklist'
       @checklist.check_contents
       redirect_to :root, success: 'チェックが完了しました'
@@ -39,7 +30,6 @@ class ChecklistsController < ApplicationController
   end
 
   def destroy
-    @checklist = Checklist.find(params[:id])
     @checklist.destroy ? (flash.now[:success] = 'チェックリストの削除が完了しました') : (redirect_to back, warning: 'チェックリストを削除できませんでした')
   end
 
@@ -67,6 +57,10 @@ class ChecklistsController < ApplicationController
 
   def create_list_contents(checklist, elements)
     elements.each { |ele| checklist.contents.create(text: ele[:text]) }
+  end
+
+   def set_checklist
+    @checklist = Checklist.find(params[:id])
   end
 
 
