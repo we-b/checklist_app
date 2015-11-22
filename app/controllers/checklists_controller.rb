@@ -14,7 +14,6 @@ class ChecklistsController < ApplicationController
   end
 
   def show
-    @contents = @checklist.contents
     flash.now[:"#{@checklist.decide_flash_key}"] = "#{@checklist.decide_flash_message}"
   end
 

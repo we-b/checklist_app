@@ -7,7 +7,7 @@
         = @checklist.name
     .panel-body
       = form_tag(checklist_path, method: :patch) do
-        - @contents.each do |content|
+        - @checklist.contents.each do |content|
           .form-group
             = check_box_tag :text, content[:text]
             = content.text
