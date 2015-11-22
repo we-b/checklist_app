@@ -13,7 +13,7 @@ class Checklist < ActiveRecord::Base
 
 
   def check_today
-    today = Settings.d.day
+    today = Date.today
     thiswday = Settings.wday[Settings.d.wday - 1]
     if everyday? || wday?(thiswday) || date?(today)
       self.todayflag = 'today'
@@ -30,10 +30,7 @@ class Checklist < ActiveRecord::Base
   def self.check_flash(checklists)
     checklists.each do |checklist|
       judgeflag = false
-      if checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
-        judgeflag = true
-      end
-     return judgeflag
+      judgeflug = checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
     end
   end
 
@@ -120,15 +117,15 @@ class Checklist < ActiveRecord::Base
     frequency == 'date' && date == today ? true : false
   end
 
-  def self.petern_everyday(params)
+  def self.pattern_everyday(params)
      Checklist.create(name: params[:name], frequency: 'everyday', wday: 0, date: 0, maker: params[:maker], image: params[:image], done: false)
   end
 
-  def self.petern_day(params)
+  def self.pattern_day(params)
       Checklist.create(name: params[:name], frequency: 'wday', wday: params[:wday], date: 0, maker: params[:maker], image: params[:image], done: false)
   end
 
-  def self.petern_wday(params)
+  def self.pattern_wday(params)
       Checklist.create(name: params[:name], frequency: 'date', wday: 0, date: params[:date], maker: params[:maker], image: params[:image], done: false)
   end
 
