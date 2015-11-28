@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20151022052041) do
     t.integer  "wday",       limit: 4
     t.string   "maker",      limit: 255
     t.string   "image",      limit: 255
-    t.boolean  "done"
+    t.boolean  "done",                   default: true
     t.integer  "todayflag",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
