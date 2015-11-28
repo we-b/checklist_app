@@ -1,7 +1,7 @@
 class Checklist < ActiveRecord::Base
 
   enum frequency: [ :everyday, :wday, :date ]
-  enum wday:      [ :sun, :mon, :tue, :wed, :thu, :fri, :sat ]
+  enum wday:      [ :not_desided, :sun, :mon, :tue, :wed, :thu, :fri, :sat ]
   enum todayflag: [ :not_today, :today ]
 
   has_many :contents, dependent: :destroy
@@ -29,8 +29,8 @@ class Checklist < ActiveRecord::Base
 
   def self.check_flash(checklists)
     checklists.each do |checklist|
-      judgeflag = false
-      judgeflug = checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
+      judge_flag = false
+      judge_flug = checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
     end
   end
 
@@ -87,16 +87,6 @@ class Checklist < ActiveRecord::Base
     self.save
   end
 
-  def self.create_checklist(params)
-    if params[:frequency] == 'everyday'
-      Checklist.petern_everyday(params)
-    elsif params[:frequency] == 'wday'
-      Checklist.petern_day(params)
-    else
-      Checklist.petern_wday(params)
-    end
-  end
-
   def edit_contents(params, new_contents_params)
     self.contents.each do |content|
       id = content.id.to_s
@@ -115,18 +105,6 @@ class Checklist < ActiveRecord::Base
 
   def date?(today)
     frequency == 'date' && date == today ? true : false
-  end
-
-  def self.pattern_everyday(params)
-     Checklist.create(name: params[:name], frequency: 'everyday', wday: 0, date: 0, maker: params[:maker], image: params[:image], done: false)
-  end
-
-  def self.pattern_day(params)
-      Checklist.create(name: params[:name], frequency: 'wday', wday: params[:wday], date: 0, maker: params[:maker], image: params[:image], done: false)
-  end
-
-  def self.pattern_wday(params)
-      Checklist.create(name: params[:name], frequency: 'date', wday: 0, date: params[:date], maker: params[:maker], image: params[:image], done: false)
   end
 
 end

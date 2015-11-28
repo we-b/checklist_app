@@ -33,7 +33,7 @@ class ChecklistsController < ApplicationController
   end
 
   def create
-    @checklist = Checklist.create_checklist(checklist_params)
+    @checklist = Checklist.create(checklist_params)
     @checklist.check_today
     create_list_contents(@checklist, contents_params)
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
@@ -58,9 +58,13 @@ class ChecklistsController < ApplicationController
     elements.each { |ele| checklist.contents.create(text: ele[:text]) }
   end
 
-   def set_checklist
+  def set_checklist
     @checklist = Checklist.find(params[:id])
   end
+
+
+
+
 
 
 end
