@@ -58,8 +58,11 @@ $(function(){
   });
 
   // チェックリスト登録画面で、リスト項目の入力行追加
+  let list_count = $('.content_input').length;
   $('.contents_area').on('click', '.add_button', function(){
-    $('.content_field:last').append('<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="text[content][][text]" id="text_content__text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>');
+    $('.content_field:last').append('<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + list_count + '][text]" id="checklist_contents_attributes_' + list_count + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
+    );
+    list_count ++
   });
 
   //チェックリスト登録画面で、リスト項目の入力行削除
