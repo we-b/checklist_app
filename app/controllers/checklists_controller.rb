@@ -18,13 +18,13 @@ class ChecklistsController < ApplicationController
   end
 
   def update
+    binding.pry
     if params.require(:checkflag).to_s == 'edit_checklist'
+      @checklist.update(checklist_params)
+      redirect_to :root, success: 'チェックリストの編集が完了しました'
+    else
       @checklist.check_contents
       redirect_to :root, success: 'チェックが完了しました'
-    else
-      @checklist.update(checklist_params)
-      @checklist.edit_contents(params, contents_params)
-      redirect_to :root, success: 'チェックリストの編集が完了しました'
     end
   end
 
@@ -35,36 +35,15 @@ class ChecklistsController < ApplicationController
   def create
     @checklist = Checklist.create(checklist_params)
     @checklist.check_today
-    create_list_contents(@checklist, contents_params)
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
   end
 
-  private
-
-
   def checklist_params
-    params.require(:checklist).permit(:name, :frequency, :date, :wday, :maker, :image, :done)
-  end
-
-  def contents_params
-    if params.require(:text).include?(:content)
-      params.require(:text).require(:content)
-    else
-      [ { text: 'none' } ]
-    end
-  end
-
-  def create_list_contents(checklist, elements)
-    elements.each { |ele| checklist.contents.create(text: ele[:text]) }
+    params.require(:checklist).permit(:name, :frequency, :date, :wday, :maker, :image, :done, contents_attributes: [:text, :id])
   end
 
   def set_checklist
     @checklist = Checklist.find(params[:id])
   end
-
-
-
-
-
 
 end
