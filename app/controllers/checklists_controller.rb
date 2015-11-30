@@ -5,6 +5,7 @@ class ChecklistsController < ApplicationController
   def index
     @checklists = Checklist.all.order(done: :ASC).page(params[:page])
     Checklist.check_all_checklists(@checklists)
+    binding.pry
     flash.now[:alert] = '本日未チェックのチェックリストがあります。' if Checklist.check_flash(@checklists)
   end
 
@@ -18,7 +19,6 @@ class ChecklistsController < ApplicationController
   end
 
   def update
-    binding.pry
     if params.require(:checkflag).to_s == 'edit_checklist'
       @checklist.update(checklist_params)
       redirect_to :root, success: 'チェックリストの編集が完了しました'
