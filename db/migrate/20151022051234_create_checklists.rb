@@ -7,7 +7,7 @@ class CreateChecklists < ActiveRecord::Migration
       t.integer :wday
       t.string :maker
       t.string :image
-      t.boolean :done, default: true
+      t.boolean :done, default: false
       t.integer :todayflag, dafault: 0
       t.timestamps
     end
