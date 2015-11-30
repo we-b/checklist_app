@@ -28,10 +28,12 @@ class Checklist < ActiveRecord::Base
   end
 
   def self.check_flash(checklists)
+    judge_flag = false
     checklists.each do |checklist|
-      judge_flag = false
-      judge_flug = checklist.deside_id == 'not_done' && checklist.todayflag == 'today'
+      judge_flag = checklist.done == false && checklist.todayflag == 'today'
     end
+    return judge_flag
+
   end
 
   def check_status
