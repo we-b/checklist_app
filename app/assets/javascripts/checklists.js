@@ -1,13 +1,9 @@
 "use strict"
 
-function check_wday (wday, date) {
-  wday.css('display', 'block');
-  date.css('display', 'none');
-};
 
-function check_date(wday, date) {
-  wday.css('display', 'none');
-  date.css('display', 'block');
+function change_display (visible, unvisible) {
+  visible.css('display', 'block');
+  unvisible.css('display', 'none');
 };
 
 function check_everyday(wday, date) {
@@ -23,9 +19,9 @@ $(function(){
   $('[id=checklist_frequency]').change(function(){
     let val = $(this).val();
     if(val === 'wday'){
-      check_wday($wday, $date);
+      change_display($wday, $date)
     }else if(val === 'date'){
-      check_date($wday, $date);
+      change_display($date, $wday);
     }else{
       check_everyday($wday, $date);
     };
@@ -38,19 +34,19 @@ $(function(){
   let $wdayEdit = $('#wday_edit');
   let $dateEdit = $('#date_edit');
   if($frequency == 'wday'){
-    check_wday($wdayEdit, $dateEdit)
+    change_display($wdayEdit, $dateEdit)
   }else if($frequency == 'date'){
-    check_date($wdayEdit, $dateEdit)
+    change_display($dateEdit, $wdayEdit)
   }else{
     check_everyday($wdayEdit, $dateEdit)
   };
   $frequencyList.on('change', function(){
     let val = $frequencyList.val();
     if(val === 'wday'){
-      check_wday($wdayEdit, $dateEdit)
+      change_display($wdayEdit, $dateEdit)
     }
     else if(val === 'date'){
-      check_date($wdayEdit, $dateEdit)
+      change_display($dateEdit, $wdayEdit)
     }
     else{
       check_everyday($wdayEdit, $dateEdit)
