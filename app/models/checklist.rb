@@ -13,9 +13,8 @@ class Checklist < ActiveRecord::Base
 
 
   def check_today
-    today = Date.today
     thiswday = Settings.wday[Settings.d.wday - 1]
-    if everyday? || wday?(thiswday) || date?(today)
+    if everyday? || wday?(thiswday) || date?(Date.today)
       self.todayflag = 'today'
     else
       self.todayflag = 'not_today'
@@ -87,14 +86,6 @@ class Checklist < ActiveRecord::Base
   def check_contents
     self.done = true
     self.save
-  end
-
-  def edit_contents(params, new_contents_params)
-    self.contents.each do |content|
-      id = content.id.to_s
-      params[:text][id] ? content.update(text: params[:text][id][:text]) : content.destroy
-    end
-    new_contents_params.each { |new_text| self.contents.create(text: new_text[:text]) unless new_text[:text] == 'none' }
   end
 
   def everyday?
