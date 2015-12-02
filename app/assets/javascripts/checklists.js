@@ -15,7 +15,6 @@ function check_everyday(wday, date) {
 $(function(){
   let $date = $("#date");
   let $wday = $("#wday");
-  check_everyday($wday, $date);
   $('[id=checklist_frequency]').change(function(){
     let val = $(this).val();
     if(val === 'wday'){
@@ -37,8 +36,6 @@ $(function(){
     change_display($wdayEdit, $dateEdit)
   }else if($frequency == 'date'){
     change_display($dateEdit, $wdayEdit)
-  }else{
-    check_everyday($wdayEdit, $dateEdit)
   };
   $frequencyList.on('change', function(){
     let val = $frequencyList.val();
@@ -54,11 +51,12 @@ $(function(){
   });
 
   // チェックリスト登録画面で、リスト項目の入力行追加
-  let list_count = $('.content_input').length;
+  let listCount = $('.content_input').length;
+  let data = '<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + listCount + '][text]" id="checklist_contents_attributes_' + listCount + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
+
   $('.contents_area').on('click', '.add_button', function(){
-    $('.content_field:last').append('<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + list_count + '][text]" id="checklist_contents_attributes_' + list_count + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
-    );
-    list_count ++
+    $('.content_field:last').append(data);
+    listCount ++
   });
 
   //チェックリスト登録画面で、リスト項目の入力行削除
