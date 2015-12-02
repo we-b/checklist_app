@@ -32,10 +32,13 @@ class ChecklistsController < ApplicationController
   end
 
   def create
-    @checklist = Checklist.create(checklist_params)
+    @checklist = Checklist.new(checklist_params)
     @checklist.check_today
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
   end
+
+
+  private
 
   def checklist_params
     params.require(:checklist).permit(:name, :frequency, :date, :wday, :maker, :image, :done, contents_attributes: [:text, :id])
