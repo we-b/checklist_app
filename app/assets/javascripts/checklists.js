@@ -52,10 +52,10 @@ $(function(){
 
   // チェックリスト登録画面で、リスト項目の入力行追加
   let listCount = $('.content_input').length;
-  let data = '<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + listCount + '][text]" id="checklist_contents_attributes_' + listCount + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
+  let addList = '<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + listCount + '][text]" id="checklist_contents_attributes_' + listCount + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
 
   $('.contents_area').on('click', '.add_button', function(){
-    $('.content_field:last').append(data);
+    $('.content_field:last').append(addList);
     listCount ++
   });
 
