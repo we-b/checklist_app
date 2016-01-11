@@ -59,9 +59,18 @@
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
-
-server '52.192.34.250', user: 'naoki', roles: %w{app} #serverのipとuser名は適宜
-set :ssh_options, keys: '~/.ssh/checklist_key'
-
+  server   '52.192.34.250',
+    user:  'naoki',
+    roles: %w{app db web},
+    ssh_options: {
+      keys: [
+        # for ec2
+        File.expand_path('~/.ssh/checklist_app'),
+        # for github
+        File.expand_path('~/.ssh/checklist_key')
+        ],
+        forward_agent: true,
+        auth_methods: %w(publickey)
+        }
 
    
