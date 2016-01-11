@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: checklist_app_production
-  username: checklist_app
-  password: <%= ENV['CHECKLIST_APP_DATABASE_PASSWORD'] %>
+  username: <%= Settings.database[:user_name] %>
+  password: <%= Settings.database[:password] %>
