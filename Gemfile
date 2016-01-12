@@ -23,6 +23,16 @@ gem 'whenever', require: false
 gem 'settingslogic'
 gem 'rails-i18n'
 
+group :production, :staging do
+  gem 'unicorn'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
+end
+
+
 
 group :development, :test do
   gem 'pry-byebug'
