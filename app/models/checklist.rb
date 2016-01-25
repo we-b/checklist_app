@@ -1,20 +1,16 @@
 class Checklist < ActiveRecord::Base
 
   enum frequency: [ :everyday, :wday, :date ]
-  enum wday:      [ :not_desided, :sun, :mon, :tue, :wed, :thu, :fri, :sat ]
+  enum wday:      [ :sunday, :monday, :tueday, :wedday, :thuday, :friday, :satday ]
   enum todayflag: [ :not_today, :today ]
-
-  has_many :contents, dependent: :destroy
-  accepts_nested_attributes_for :contents
-  mount_uploader :image, Checklist_thumbnailUploader
 
   paginates_per 3
   default_scope { order(todayflag: :DESC) }
 
-
   def check_today
+    today = Settings.d.day
     thiswday = Settings.wday[Settings.d.wday - 1]
-    if everyday? || wday?(thiswday) || date?(Date.today)
+    if everyday? || wday?(thiswday) || date?(today)
       self.todayflag = 'today'
     else
       self.todayflag = 'not_today'
@@ -27,12 +23,11 @@ class Checklist < ActiveRecord::Base
   end
 
   def self.check_flash(checklists)
-    judge_flag = false
     checklists.each do |checklist|
-      judge_flag = checklist.done == false && checklist.todayflag == 'today'
+      flag = 0
+      flag += 1 if checklist.deside_id == 'not_done'
+      return true if flag != 0
     end
-    return judge_flag
-
   end
 
   def check_status
@@ -57,35 +52,6 @@ class Checklist < ActiveRecord::Base
     elsif todayflag == 'not_today'
       'dont_have_to'
     end
-  end
-
-  def decide_flash_message
-    if todayflag == 'today'
-      if done
-        '本日チェック済みです。 お疲れ様でした'
-      else
-        '本日未チェックです！ チェックしましょう'
-      end
-    else
-      '本日チェックする必要はございません'
-    end
-  end
-
-  def decide_flash_key
-    if todayflag == 'today'
-      if done
-        'success'
-      else
-        'danger'
-      end
-    else
-      'info'
-    end
-  end
-
-  def check_contents
-    self.done = true
-    self.save
   end
 
   def everyday?
