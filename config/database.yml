@@ -50,5 +50,10 @@ test:
 production:
   <<: *default
   database: checklist_app_production
+<<<<<<< HEAD
   username: root
   password: 
+=======
+  username: <%= Settings.database[:user_name] %>
+  password: <%= Settings.database[:password] %>
+>>>>>>> cfe5f1098962255f96413b6cda9fc301fe62e242

@@ -1,0 +1,5 @@
+database:
+  user_name: 'root'
+  password:
+production:
+  secret: 'd2775de9a796ab975a6b7893247bfca3ae446023f22fbfd28d0005e66505891a36460b0c4f61fd98d94ec85df9926640678286437621a27ad721e91ead7963b9'

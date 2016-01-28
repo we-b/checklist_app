@@ -21,7 +21,16 @@ gem 'rails-i18n'
 gem 'carrierwave'
 gem 'whenever', require: false
 gem 'settingslogic'
-gem 'rails-i18n'
+
+group :production, :staging do
+  gem 'unicorn'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
+end
+
 
 group :production, :staging do
   gem 'unicorn'
@@ -39,3 +48,4 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
+
