@@ -1,7 +1,9 @@
 default: &default
   message: 'Hello'
   d: <%= Date.today %>
-  wday: ['月','火','水','木','金','土','日']
+  wday: [['-', 'not_desided'], ['日', 'sun'], ['月', 'mon'], ['火', 'tue'], ['水', 'wed'], ['木', 'thu'], ['金', 'fri'], ['土', 'sat']]
+  frequency: [['毎日', 'everyday'], ['曜日指定', 'wday'], ['日指定', 'date']]
+  month_days : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
 
 development:
   <<: *default

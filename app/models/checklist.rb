@@ -1,7 +1,12 @@
 class Checklist < ActiveRecord::Base
 
+  has_many :contents, dependent: :destroy
+  accepts_nested_attributes_for :contents
+  mount_uploader :image, Checklist_thumbnailUploader
+
+
   enum frequency: [ :everyday, :wday, :date ]
-  enum wday:      [ :sunday, :monday, :tueday, :wedday, :thuday, :friday, :satday ]
+  enum wday:      [ :not_desided, :sun, :mon, :tue, :wed, :thu, :fri, :sat ]
   enum todayflag: [ :not_today, :today ]
 
   paginates_per 3
@@ -29,6 +34,33 @@ class Checklist < ActiveRecord::Base
       return true if flag != 0
     end
   end
+
+  def decide_flash_message
+    if todayflag == 'today'
+      if done
+        '本日チェック済みです。 お疲れ様でした'
+      else
+        '本日未チェックです！ チェックしましょう'
+      end
+    else
+      '本日チェックする必要はございません'
+    end
+  end
+
+
+  def decide_flash_key
+    if todayflag == 'today'
+      if done
+        'success'
+      else
+        'danger'
+      end
+    else
+      'info'
+    end
+  end
+
+
 
   def check_status
     if todayflag == 'today'
