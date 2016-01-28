@@ -1,9 +1,11 @@
 class Checklist < ActiveRecord::Base
 
   has_many :contents, dependent: :destroy
-  accepts_nested_attributes_for :contents
-  mount_uploader :image, Checklist_thumbnailUploader
+  has_many :groups, dependent: :destroy
 
+  accepts_nested_attributes_for :contents
+
+  mount_uploader :image, Checklist_thumbnailUploader
 
   enum frequency: [ :everyday, :wday, :date ]
   enum wday:      [ :not_desided, :sun, :mon, :tue, :wed, :thu, :fri, :sat ]

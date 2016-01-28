@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151022052041) do
+ActiveRecord::Schema.define(version: 20160128110247) do
 
   create_table "checklists", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 20151022052041) do
 
   create_table "contents", force: :cascade do |t|
     t.text     "text",         limit: 65535
+    t.integer  "checklist_id", limit: 4
+    t.integer  "group_id",     limit: 4
+    t.boolean  "checked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "title",        limit: 255
     t.integer  "checklist_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
