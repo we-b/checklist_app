@@ -53,23 +53,22 @@ $(function(){
   // チェックリスト登録画面で、リスト項目の入力行追加
 
   $('.contents_area').on('click', '.add_button', function(){
-    let listCount = $('.content_input').length;
-    let addList = '<div class="col-xs-8 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + listCount + '][text]" id="checklist_contents_attributes_' + listCount + '_text"></div><div class="col-xs-2 button_area"><input class="btn btn-default remove_button" type="button" value="削除"></div>'
-    $('.content_field:last').append(addList);
+    var listCount = $('.content_input').length;
+    var clickedListCount = $()
+    var addList = '<div class="row content_field"><div class="col-xs-7 content_input"><input class="form-control" placeholder="追加したいチェック項目を入力してください" type="text" name="checklist[contents_attributes][' + listCount + '][text]" id="checklist_contents_attributes_' + listCount + '_text"></div><div class="col-xs-3 form-group"><input type="text" name="content[tag_list][]" id="content_tag_list_" value="" placeholder="グループを入力"></div><div class="col-xs-2 button_area text-left"><input class="btn btn-default remove_button" type="button" value="削除"></div></div>'
+    $('.check_group_panel:last').append(addList);
   });
 
   //チェックリスト登録画面で、リスト項目の入力行削除
-  $('.contents_area').on('click', '.remove_button', function(){
+  $(document).on('click', '.remove_button', function(){
     let count = $('.remove_button').length;
     if(count === 1){
       alert('入力欄が１行のため、削除出来ません。');
     }else{
       let index = Number($('.remove_button').index(this));
-    $('.content_input').eq(index).remove();
-    $('.button_area').eq(index).remove();
+      $('.content_field').eq(index).remove();
     };
   });
-
 
   //本日未チェック分のリスト枠を赤くする
   let img = $('.panel-body div img')
