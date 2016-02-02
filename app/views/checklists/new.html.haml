@@ -43,19 +43,21 @@
         .row
           .contents_area
             = f.fields_for :contents do |content|
-              .form-group
-                .col-xs-6.content_label.form-group
-                  = content.label :text, 'チェック項目'
-                .col-xs-6.form-group
-                  %input{ type: 'button', class: 'btn btn-default add_button', value: 'チェック項目追加' }
-                .form-group.content_field
-                  .col-xs-8.content_input
+              .form-group.panel.panel-default.check_group_panel#check_group1
+                .row.check_group
+                  .col-xs-2.form-group
+                    = content.label :title, 'チェック項目作成'
+                  .col-xs-2.col-xs-offset-2.form-group
+                    %input{ type: 'button', class: 'btn btn-default add_button', value: '項目追加' }
+                .row.content_field
+                  .col-xs-7.content_input
                     = content.text_field :text, class: 'form-control', placeholder: '追加したいチェック項目を入力してください'
-                  .col-xs-2.button_area
+                  .col-xs-3.form-group.tag_input
+                    = text_field_tag 'content[tag_list][]', '', placeholder: 'グループを入力'
+                  .col-xs-2.button_area.text-left
                     %input{ type: 'button', class: 'btn btn-default remove_button', value: '削除' }
         %br
         .row
           .col-xs-2.col-xs-offset-5
             %br
             = button_tag '作成', type: 'submit', class: 'btn btn-primary'
-
