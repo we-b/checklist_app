@@ -23,6 +23,7 @@ class ChecklistsController < ApplicationController
 
   def create
     @checklist = Checklist.new(checklist_params)
+    Checklist.create_tags(@checklist.contents, params[:content][:tag_list])
     @checklist.check_today
     @checklist.save ? (redirect_to root_path, success: 'チェックリストの作成が完了しました') : (redirect_to back,  warning: "チェックリストの作成に失敗しました")
   end

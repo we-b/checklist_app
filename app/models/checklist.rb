@@ -1,9 +1,9 @@
 class Checklist < ActiveRecord::Base
 
   has_many :contents, dependent: :destroy
-  has_many :groups, dependent: :destroy
 
   accepts_nested_attributes_for :contents
+
 
   mount_uploader :image, Checklist_thumbnailUploader
 
@@ -99,5 +99,11 @@ class Checklist < ActiveRecord::Base
   def date?(today)
     frequency == 'date' && date == today ? true : false
   end
+
+  def self.create_tags(contents, all_tags)
+    contents.each.with_index { |content, i| content.tag_list.add(all_tags[i]) }
+  end
+
+
 
 end
