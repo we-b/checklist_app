@@ -21,6 +21,7 @@ gem 'rails-i18n'
 gem 'carrierwave'
 gem 'whenever', require: false
 gem 'settingslogic'
+gem 'acts-as-taggable-on'
 
 
 group :development, :test do
