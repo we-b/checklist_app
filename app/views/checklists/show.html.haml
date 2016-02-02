@@ -10,7 +10,7 @@
         - @checklist.contents.each do |content|
           .form-group
             = check_box_tag :text, content[:text]
-            = content.text
+            #{ content.text }(#{ content.tag_list.first })
         %br
         %br
         .row
