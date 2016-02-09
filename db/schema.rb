@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160202061013) do
   create_table "contents", force: :cascade do |t|
     t.text     "text",         limit: 65535
     t.integer  "checklist_id", limit: 4
-    t.boolean  "checked"
+    t.boolean  "checked",                    default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
