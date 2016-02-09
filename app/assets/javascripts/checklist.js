@@ -1,6 +1,4 @@
 "use strict"
-
-
 function change_display (visible, unvisible) {
   visible.css('display', 'block');
   unvisible.css('display', 'none');
@@ -12,7 +10,7 @@ function check_everyday(wday, date) {
 };
 
 // チェック頻度選択欄の表示・非表示
-$(function(){
+$(document).on('ready page:load', function(){
   let $date = $("#date");
   let $wday = $("#wday");
   $('[id=checklist_frequency]').change(function(){
@@ -51,7 +49,7 @@ $(function(){
   });
 
   // チェックリスト登録画面で、リスト項目の入力行追加
-
+  $('.contents_area').off('click')
   $('.contents_area').on('click', '.add_button', function(){
     var listCount = $('.content_input').length;
     var clickedListCount = $()
@@ -69,6 +67,31 @@ $(function(){
       $('.content_field').eq(index).remove();
     };
   });
+
+  //チェックをajaxで通信
+  $("#check_content :checkbox").on('change', function() {
+    var contentId = $(this).val();
+    if($(this).is(':checked')){
+      $.ajax({
+        url: "/api/checks/" + contentId,
+        type: "PATCH",
+      }).done(function(data, textStatus){
+        console.log(data);
+      }).fail(function(xhr, textStatus, errorThrown){
+        console.log('create_failed');
+      });
+    } else {
+      $.ajax({
+        url: "/api/checks/" + contentId,
+        type: "DELETE",
+      }).done(function(data, textStatus){
+        console.log('delete_done');
+      }).fail(function(xhr, textStatus, errorThrown){
+        console.log('delete_failed');
+      });
+    }
+  });
+
 
   //本日未チェック分のリスト枠を赤くする
   let img = $('.panel-body div img')
