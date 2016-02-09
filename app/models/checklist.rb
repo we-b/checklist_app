@@ -1,7 +1,6 @@
 class Checklist < ActiveRecord::Base
 
   has_many :contents, dependent: :destroy
-
   accepts_nested_attributes_for :contents
 
 
@@ -103,7 +102,5 @@ class Checklist < ActiveRecord::Base
   def self.create_tags(contents, all_tags)
     contents.each.with_index { |content, i| content.tag_list.add(all_tags[i]) }
   end
-
-
 
 end
