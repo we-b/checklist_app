@@ -35,7 +35,8 @@ class ChecklistsController < ApplicationController
   def update
     if params.require(:checkflag).to_s == 'edit_checklist'
       @checklist.update(checklist_params)
-      redirect_to :root, success: 'チェックリストの編集が完了しました'
+      Checklist.create_tags(@checklist.contents, params[:content][:tag_list])
+      @checklist.save ? (redirect_to :root, success: 'チェックリストの編集が完了しました') : (redirect_to back, warning: 'チェックリストの編集に失敗しました')
     else
       @checklist.check_contents
       redirect_to :root, success: 'チェックが完了しました'
