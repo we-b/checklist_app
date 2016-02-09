@@ -7,14 +7,14 @@
         = @checklist.name
     .panel-body
       = form_tag(checklist_path, method: :patch) do
-        - @checklist.contents.each do |content|
-          .form-group
-            = check_box_tag :text, content[:text]
-            #{ content.text }(#{ content.tag_list.first })
+        #check_content
+          = render partial: 'content', collection: @checklist.contents
         %br
         %br
         .row
-          .col-xs-12.text-center
+          .col-xs-6.text-right
+            = link_to 'チェック確認', checklist_path(@checklist), type: 'button', class: 'btn btn-default'
+          .col-xs-6.text-left
             = hidden_field_tag :checkflag, 'check_checklist'
             = button_tag 'チェック完了', class: 'btn btn-primary', id: 'check_button'
   .row
